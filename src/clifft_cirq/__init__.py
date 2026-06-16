@@ -1,5 +1,7 @@
 """Cirq adapter for Clifft circuit text and sampling."""
 
+from importlib import metadata
+
 from clifft_cirq._convert import (
     ConvertedCircuit,
     MeasurementMetadata,
@@ -16,4 +18,7 @@ __all__ = [
     "to_clifft_text",
 ]
 
-__version__ = "0.1.0"
+try:
+    __version__ = metadata.version("clifft-cirq")
+except metadata.PackageNotFoundError:  # pragma: no cover
+    __version__ = "0.0.0"

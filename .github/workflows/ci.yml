@@ -39,3 +39,16 @@ jobs:
         run: uv run ruff check .
       - name: Test
         run: uv run pytest
+      - name: Build distributions
+        if: matrix.python-version == '3.12' && matrix.cirq-range == 'cirq-core>=1.6,<2'
+        run: uv build
+      - name: Check package metadata
+        if: matrix.python-version == '3.12' && matrix.cirq-range == 'cirq-core>=1.6,<2'
+        run: uv run twine check dist/*
+      - name: Test installed wheel
+        if: matrix.python-version == '3.12' && matrix.cirq-range == 'cirq-core>=1.6,<2'
+        run: |
+          python -m venv .wheel-smoke
+          .wheel-smoke/bin/python -m pip install -U pip
+          .wheel-smoke/bin/python -m pip install 'pytest>=8.0' dist/*.whl
+          .wheel-smoke/bin/python -m pytest tests -q
