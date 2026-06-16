@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clifft-cirq"
+version = "0.1.0"
+description = "Cirq adapter for Clifft circuits and sampling"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+authors = [
+    { name = "Brad Chase", email = "brad@unitary.foundation" },
+]
+keywords = ["quantum", "cirq", "clifft", "simulation", "adapter"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "cirq-core>=1.6,<2",
+    "clifft>=0.5",
+    "numpy>=1.26",
+]
+
+[project.urls]
+Homepage = "https://github.com/unitaryfoundation/clifft-cirq"
+Issues = "https://github.com/unitaryfoundation/clifft-cirq/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.8",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clifft_cirq"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "W",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["clifft_cirq"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
