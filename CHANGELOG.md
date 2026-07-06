@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-07-06
+
+### Bug Fixes
+
+- support Cirq 1.7 CZ decompositions (#4) by @bachase in [#4](https://github.com/unitaryfoundation/clifft-cirq/pull/4)
+
+### CI
+
+- preserve Cirq matrix overrides (#5) by @bachase in [#5](https://github.com/unitaryfoundation/clifft-cirq/pull/5)
+
 ## [0.1.0] - 2026-06-16
 
 This is the first public release of `clifft-cirq`, a lightweight Cirq adapter
