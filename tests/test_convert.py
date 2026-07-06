@@ -108,6 +108,14 @@ def test_single_qubit_special_angles_match_cirq_unitary(
         (lambda q0, q1: cirq.YYPowGate(exponent=-0.5)(q0, q1), "R_YY(-0.5) 0 1"),
         (lambda q0, q1: cirq.ZZPowGate(exponent=0.5)(q0, q1), "R_ZZ(0.5) 0 1"),
         (lambda q0, q1: cirq.ZZPowGate(exponent=-0.5)(q0, q1), "R_ZZ(-0.5) 0 1"),
+        (
+            lambda q0, q1: cirq.CZPowGate(exponent=0.5)(q0, q1),
+            "T 0\nT 1\nR_ZZ(-0.25) 0 1",
+        ),
+        (
+            lambda q0, q1: cirq.CZPowGate(exponent=-0.5)(q0, q1),
+            "T_DAG 0\nT_DAG 1\nR_ZZ(0.25) 0 1",
+        ),
     ],
 )
 def test_two_qubit_special_angles_match_cirq_unitary(
