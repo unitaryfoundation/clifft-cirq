@@ -35,16 +35,20 @@ jobs:
             uv sync --group dev --locked
           fi
           uv pip install --upgrade "${{ matrix.cirq-range }}"
+      - name: Show dependency versions
+        run: |
+          echo "Requested ${{ matrix.cirq-range }}"
+          uv run --no-sync python -c "import cirq, sys; print(f'Python {sys.version.split()[0]}'); print(f'cirq-core {cirq.__version__}')"
       - name: Lint
-        run: uv run ruff check .
+        run: uv run --no-sync ruff check .
       - name: Test
-        run: uv run pytest
+        run: uv run --no-sync pytest
       - name: Build distributions
         if: matrix.python-version == '3.12' && matrix.cirq-range == 'cirq-core>=1.6,<2'
         run: uv build
       - name: Check package metadata
         if: matrix.python-version == '3.12' && matrix.cirq-range == 'cirq-core>=1.6,<2'
-        run: uv run twine check dist/*
+        run: uv run --no-sync twine check dist/*
       - name: Test installed wheel
         if: matrix.python-version == '3.12' && matrix.cirq-range == 'cirq-core>=1.6,<2'
         run: |
