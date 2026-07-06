@@ -293,7 +293,7 @@ def _emit_two_qubit_gate(gate: cirq.Gate, targets: tuple[int, int]) -> list[str]
     if _is_gate_type(gate, "CXPowGate"):
         return _emit_powered_named_gate("CX", _gate_exponent(gate), targets)
     if _is_gate_type(gate, "CZPowGate"):
-        return _emit_powered_named_gate("CZ", _gate_exponent(gate), targets)
+        return _emit_cz_pow(_gate_exponent(gate), targets)
     if _is_gate_type(gate, "SwapPowGate"):
         return _emit_powered_named_gate("SWAP", _gate_exponent(gate), targets)
 
@@ -330,6 +330,21 @@ def _emit_powered_named_gate(
     if _periodic_close(exponent, 1.0):
         return [f"{clifft_name} {_join_targets(targets)}"]
     return None
+
+
+def _emit_cz_pow(exponent: float, targets: tuple[int, int]) -> list[str]:
+    a, b = targets
+    if _periodic_close(exponent, 0.0):
+        return []
+    if _periodic_close(exponent, 1.0):
+        return [f"CZ {a} {b}"]
+
+    half_exponent = exponent / 2
+    return [
+        *_emit_single_axis_pow("Z", half_exponent, a),
+        *_emit_single_axis_pow("Z", half_exponent, b),
+        *_emit_two_axis_pow("ZZ", -half_exponent, targets),
+    ]
 
 
 def _emit_two_axis_pow(axis: str, exponent: float, targets: tuple[int, int]) -> list[str]:
