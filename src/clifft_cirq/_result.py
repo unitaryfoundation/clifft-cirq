@@ -44,8 +44,6 @@ def _expected_measurement_columns(converted: ConvertedCircuit) -> int:
     if not converted.measurement_map:
         return 0
     columns = (
-        column
-        for metadata in converted.measurement_map.values()
-        for column in metadata.columns
+        column for metadata in converted.measurement_map.values() for column in metadata.columns
     )
     return max(columns) + 1

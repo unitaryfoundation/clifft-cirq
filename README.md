@@ -66,6 +66,7 @@ Clifft and Cirq conventions differ. Unsupported operations raise
 uv sync --group dev
 uv run pytest
 uv run ruff check .
+uv run ruff format --check .
 ```
 
 The package depends on `clifft>=0.5` because that release supports the gateset
