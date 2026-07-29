@@ -41,6 +41,8 @@ jobs:
           uv run --no-sync python -c "import cirq, sys; print(f'Python {sys.version.split()[0]}'); print(f'cirq-core {cirq.__version__}')"
       - name: Lint
         run: uv run --no-sync ruff check .
+      - name: Format check
+        run: uv run --no-sync ruff format --check .
       - name: Test
         run: uv run --no-sync pytest
       - name: Build distributions
