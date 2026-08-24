@@ -222,7 +222,7 @@ def test_representative_supported_circuit_compiles() -> None:
     assert program.num_measurements == 3
 
 
-def test_clifford_pow_circuit_compiles_to_zero_peak_rank() -> None:
+def test_clifford_pow_circuit_compiles_to_zero_peak_active_width() -> None:
     q0, q1 = cirq.LineQubit.range(2)
     circuit = cirq.Circuit(
         cirq.XPowGate(exponent=0.5)(q0),
@@ -234,4 +234,4 @@ def test_clifford_pow_circuit_compiles_to_zero_peak_rank() -> None:
     converted = clifft_cirq.to_clifft_text(circuit)
     program = clifft.compile(converted.clifft_text)
 
-    assert program.peak_rank == 0
+    assert program.peak_active_width == 0

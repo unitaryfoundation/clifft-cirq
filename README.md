@@ -69,7 +69,6 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-The package depends on `clifft>=0.5` because that release supports the gateset
-used by this adapter, including controlled-gate rewrites for `CH`, `CCX`, and
-`CCZ`. CI should keep testing both the Cirq floor and the latest allowed
+The package depends on `clifft>=0.8` and uses its symbolic compiler and sampler
+APIs. CI should keep testing both the Cirq floor and the latest allowed
 `cirq-core<2` range.

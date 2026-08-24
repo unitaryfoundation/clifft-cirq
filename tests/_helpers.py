@@ -11,12 +11,7 @@ import clifft_cirq
 
 def clifft_statevector_from_text(clifft_text: str) -> np.ndarray:
     program = clifft.compile(clifft_text)
-    state = clifft.State(
-        peak_rank=program.peak_rank,
-        num_measurements=program.num_measurements,
-    )
-    clifft.execute(program, state)
-    return np.asarray(clifft.get_statevector(program, state), dtype=np.complex128)
+    return np.asarray(clifft.get_statevector(program), dtype=np.complex128)
 
 
 def clifft_unitary_from_text(clifft_text: str, num_qubits: int) -> np.ndarray:
