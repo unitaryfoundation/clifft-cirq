@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-08-24
+
+### Bug Fixes
+
+- support Clifft 0.8 interface (#8) by @bachase in [#8](https://github.com/unitaryfoundation/clifft-cirq/pull/8)
+
+### CI
+
+- adopt Ruff 0.16 formatting (#7) by @bachase in [#7](https://github.com/unitaryfoundation/clifft-cirq/pull/7)
+
+### Documentation
+
+- link Clifft integration guide by @bachase
+
 ## [0.1.1] - 2026-07-06
 
 ### Bug Fixes
