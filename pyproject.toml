@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.27", "hatch-vcs>=0.4"]
+requires = ["hatchling>=1.27,<1.30", "hatch-vcs>=0.4"]
 build-backend = "hatchling.build"
 
 [project]
@@ -23,7 +23,7 @@ classifiers = [
 ]
 dependencies = [
     "cirq-core>=1.6,<2",
-    "clifft>=0.5",
+    "clifft>=0.8",
     "numpy>=1.26",
 ]
 
