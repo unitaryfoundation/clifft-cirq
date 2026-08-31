@@ -14,34 +14,33 @@ def clifft_statevector_from_text(clifft_text: str) -> np.ndarray:
     return np.asarray(clifft.get_statevector(program), dtype=np.complex128)
 
 
-def clifft_unitary_from_text(clifft_text: str, num_qubits: int) -> np.ndarray:
-    """Build a Clifft unitary by executing the program on every basis state."""
+def assert_clifft_text_matches_cirq_operation(
+    clifft_text: str,
+    operation: cirq.Operation,
+) -> None:
+    """Compare an operation through one phase-insensitive Choi-state execution."""
 
-    columns = []
-    for basis in range(2**num_qubits):
-        prep = [f"X {qubit}" for qubit in range(num_qubits) if (basis >> qubit) & 1]
-        lines = [*prep]
-        if clifft_text:
-            lines.append(clifft_text)
-        columns.append(clifft_statevector_from_text("\n".join(lines)))
-    return np.column_stack(columns)
+    num_qubits = len(operation.qubits)
+    system_qubits = tuple(cirq.LineQubit.range(num_qubits))
+    reference_qubits = tuple(cirq.LineQubit.range(num_qubits, 2 * num_qubits))
 
+    clifft_lines = []
+    cirq_circuit = cirq.Circuit()
+    for system, reference in zip(system_qubits, reference_qubits, strict=True):
+        clifft_lines.extend((f"H {system.x}", f"CX {system.x} {reference.x}"))
+        cirq_circuit.append((cirq.H(system), cirq.CNOT(system, reference)))
 
-def cirq_little_endian_unitary(operation: cirq.Operation) -> np.ndarray:
-    qubits = tuple(operation.qubits)
-    circuit = cirq.Circuit(operation)
-    columns = []
-    for basis in range(2 ** len(qubits)):
-        initial_state = np.zeros(2 ** len(qubits), dtype=np.complex128)
-        initial_state[basis] = 1
-        columns.append(
-            cirq.final_state_vector(
-                circuit,
-                initial_state=initial_state,
-                qubit_order=tuple(reversed(qubits)),
-            )
-        )
-    return np.column_stack(columns)
+    if clifft_text:
+        clifft_lines.append(clifft_text)
+    cirq_circuit.append(operation.with_qubits(*system_qubits))
+
+    assert_allclose_up_to_global_phase(
+        clifft_statevector_from_text("\n".join(clifft_lines)),
+        cirq.final_state_vector(
+            cirq_circuit,
+            qubit_order=tuple(reversed((*system_qubits, *reference_qubits))),
+        ),
+    )
 
 
 def cirq_statevector_little_endian(

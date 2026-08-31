@@ -4,11 +4,7 @@ import cirq
 import numpy as np
 import pytest
 import sympy
-from _helpers import (
-    assert_allclose_up_to_global_phase,
-    cirq_little_endian_unitary,
-    clifft_unitary_from_text,
-)
+from _helpers import assert_clifft_text_matches_cirq_operation
 
 import clifft_cirq
 from clifft_cirq._result import result_dict_from_clifft_samples
@@ -93,10 +89,7 @@ def test_single_qubit_special_angles_match_cirq_unitary(
     converted = clifft_cirq.to_clifft_text(cirq.Circuit(operation))
 
     assert converted.clifft_text == expected_text
-    assert_allclose_up_to_global_phase(
-        clifft_unitary_from_text(converted.clifft_text, num_qubits=1),
-        cirq_little_endian_unitary(operation),
-    )
+    assert_clifft_text_matches_cirq_operation(converted.clifft_text, operation)
 
 
 @pytest.mark.parametrize(
@@ -127,10 +120,7 @@ def test_two_qubit_special_angles_match_cirq_unitary(
     converted = clifft_cirq.to_clifft_text(cirq.Circuit(operation))
 
     assert converted.clifft_text == expected_text
-    assert_allclose_up_to_global_phase(
-        clifft_unitary_from_text(converted.clifft_text, num_qubits=2),
-        cirq_little_endian_unitary(operation),
-    )
+    assert_clifft_text_matches_cirq_operation(converted.clifft_text, operation)
 
 
 @pytest.mark.parametrize(
@@ -156,10 +146,7 @@ def test_native_direct_gates_match_cirq_unitary(
     converted = clifft_cirq.to_clifft_text(cirq.Circuit(operation))
 
     assert converted.clifft_text == expected_text
-    assert_allclose_up_to_global_phase(
-        clifft_unitary_from_text(converted.clifft_text, num_qubits=num_qubits),
-        cirq_little_endian_unitary(operation),
-    )
+    assert_clifft_text_matches_cirq_operation(converted.clifft_text, operation)
 
 
 def test_controlled_h_with_nontrivial_subgate_global_phase_does_not_emit_plain_ch() -> None:
@@ -171,10 +158,7 @@ def test_controlled_h_with_nontrivial_subgate_global_phase_does_not_emit_plain_c
     converted = clifft_cirq.to_clifft_text(cirq.Circuit(operation))
 
     assert converted.clifft_text != "CH 0 1"
-    assert_allclose_up_to_global_phase(
-        clifft_unitary_from_text(converted.clifft_text, num_qubits=2),
-        cirq_little_endian_unitary(operation),
-    )
+    assert_clifft_text_matches_cirq_operation(converted.clifft_text, operation)
 
 
 def test_default_and_explicit_qubit_order_are_stable() -> None:
