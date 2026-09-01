@@ -5,8 +5,16 @@ Clifft circuit text and provides a small Cirq-style sampler facade on top of
 Clifft. Parameter-resolved means the circuit has no symbolic parameters left,
 for example after `cirq.resolve_parameters`.
 
-See Clifft's [front-end integrations guide](https://unitaryfoundation.github.io/clifft/getting-started/integrations/)
-for how this adapter fits with other Clifft front ends.
+See Clifft's [Circuit Inputs guide](https://unitaryfoundation.github.io/clifft/stable/guide/circuit-inputs/#cirq)
+for how this adapter fits with other Clifft input paths.
+
+## Install
+
+```bash
+pip install clifft-cirq
+```
+
+## Quickstart
 
 ```python
 import cirq
