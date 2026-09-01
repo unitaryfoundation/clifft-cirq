@@ -29,7 +29,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/unitaryfoundation/clifft-cirq"
-Documentation = "https://unitaryfoundation.github.io/clifft/getting-started/integrations/"
+Documentation = "https://unitaryfoundation.github.io/clifft/stable/guide/circuit-inputs/#cirq"
 Repository = "https://github.com/unitaryfoundation/clifft-cirq"
 Issues = "https://github.com/unitaryfoundation/clifft-cirq/issues"
 
